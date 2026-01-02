@@ -31,9 +31,19 @@
             font-weight: bold;
         }
 
+        #lockedMessage {
+            margin-top: 25px;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        #content {
+            display: none;
+            margin-top: 30px;
+        }
+
         #typewriter {
             font-size: 1.15rem;
-            margin-top: 30px;
             min-height: 160px;
             white-space: pre-line;
         }
@@ -58,14 +68,18 @@
             margin-top: 15px;
         }
 
-        .hidden {
-            display: none;
-        }
-
         .heart {
             font-size: 3rem;
             margin-top: 20px;
             animation: pulse 1.5s infinite;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            top: -10px;
+            animation: fall 4s linear infinite;
         }
 
         @keyframes pulse {
@@ -94,16 +108,6 @@
             }
         }
 
-        /* Confetti */
-        .confetti {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: white;
-            top: -10px;
-            animation: fall 4s linear infinite;
-        }
-
         @keyframes fall {
             to {
                 transform: translateY(110vh) rotate(360deg);
@@ -116,26 +120,30 @@
 <body>
 
     <div class="container">
-        <h1>🎂 Happy Birthday, <span id="name">My Baccha</span> 🎉</h1>
+
+        <h1>🎂 Happy Birthday, My Baccha 🎉</h1>
 
         <div id="countdown"></div>
 
-        <div id="typewriter"></div>
+        <div id="lockedMessage">
+            💖 This page will unlock at midnight<br>
+            and only with the right PIN 😉
+        </div>
 
-        <div class="heart">❤️</div>
-
-        <button onclick="openSong()">Play Our Song 🎵</button>
-
-        <div style="margin-top:30px;">
-            <p>🔐 Unlock a secret message</p>
+        <div id="pinSection" style="display:none;">
             <input id="pin" placeholder="Enter PIN" />
             <br />
             <button onclick="unlock()">Unlock 💌</button>
         </div>
 
-        <div id="secret" class="hidden">
-            <h2>💖 My Secret for You 💖</h2>
-            <p>
+        <!-- HIDDEN CONTENT -->
+        <div id="content">
+            <div id="typewriter"></div>
+            <div class="heart">❤️</div>
+
+            <button onclick="openSong()">Play Our Song 🎵</button>
+
+            <p style="margin-top:25px;">
                 No distance, no moment, no situation can ever reduce what I feel for you.<br><br>
                 Today I may not be near you physically,<br>
                 but my heart is celebrating you louder than ever.<br><br>
@@ -143,27 +151,39 @@
                 And I promise — every birthday ahead, I’ll be closer than the last. ❤️
             </p>
         </div>
+
     </div>
 
     <script>
-        // Countdown to midnight
+        let isMidnightReached = false;
+
+        // Countdown logic
         function updateCountdown() {
             const now = new Date();
             const midnight = new Date();
             midnight.setHours(24, 0, 0, 0);
 
             const diff = midnight - now;
+
+            if (diff <= 0) {
+                isMidnightReached = true;
+                document.getElementById("countdown").innerText = "🎉 It's your birthday, My Baccha 🎉";
+                document.getElementById("pinSection").style.display = "block";
+                return;
+            }
+
             const hrs = Math.floor(diff / (1000 * 60 * 60));
             const mins = Math.floor((diff / (1000 * 60)) % 60);
             const secs = Math.floor((diff / 1000) % 60);
 
             document.getElementById("countdown").innerText =
-                `⏳ Time until your birthday moment: ${hrs}h ${mins}m ${secs}s`;
+                `⏳ Unlocks in: ${hrs}h ${mins}m ${secs}s`;
         }
+
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // Typewriter message
+        // Typewriter message (hidden until unlock)
         const text = `Today is special because YOU exist 💖
 
 I wish I could be right there,
@@ -179,21 +199,32 @@ but as a small piece of my heart.
 
 Happy Birthday, My Baccha 🎂❤️`;
 
-        let i = 0;
         function typeEffect() {
-            if (i < text.length) {
-                document.getElementById("typewriter").innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeEffect, 40);
+            let i = 0;
+            document.getElementById("typewriter").innerHTML = "";
+            function type() {
+                if (i < text.length) {
+                    document.getElementById("typewriter").innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 40);
+                }
             }
+            type();
         }
-        typeEffect();
 
-        // Unlock secret
+        // Unlock logic
         function unlock() {
+            if (!isMidnightReached) {
+                alert("⏳ Wait till midnight, My Baccha ❤️");
+                return;
+            }
+
             const pin = document.getElementById("pin").value;
-            if (pin === "143") {
-                document.getElementById("secret").classList.remove("hidden");
+            if (pin === "2309") {
+                document.getElementById("content").style.display = "block";
+                document.getElementById("pinSection").style.display = "none";
+                document.getElementById("lockedMessage").style.display = "none";
+                typeEffect();
                 launchConfetti();
             } else {
                 alert("❌ Wrong PIN. Try something romantic 😉");
@@ -209,12 +240,10 @@ Happy Birthday, My Baccha 🎂❤️`;
                 confetti.style.background = `hsl(${Math.random() * 360},100%,80%)`;
                 confetti.style.animationDuration = 2 + Math.random() * 3 + "s";
                 document.body.appendChild(confetti);
-
                 setTimeout(() => confetti.remove(), 5000);
             }
         }
 
-        // YouTube song
         function openSong() {
             window.open(
                 "https://www.youtube.com/watch?v=9QpmsrYO4cc&list=RD9QpmsrYO4cc&start_radio=1",
