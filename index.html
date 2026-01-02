@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday ❤️</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(120deg, #ff758c, #ff7eb3);
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        #typewriter {
+            font-size: 1.2rem;
+            margin-top: 30px;
+            min-height: 120px;
+        }
+
+        .heart {
+            font-size: 3rem;
+            animation: pulse 1.5s infinite;
+            margin-top: 20px;
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            background: white;
+            color: #ff4d6d;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎂 Happy Birthday, <span id="name">My Love</span> 🎉</h1>
+
+        <div id="typewriter"></div>
+
+        <div class="heart">❤️</div>
+
+        <button onclick="playMusic()">Play Our Song 🎵</button>
+    </div>
+
+    <audio id="music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        const text = `On this special day, I just want you to know…
+You are the most beautiful part of my life.
+Even though we are in different cities today,
+my heart is right there with you. 💖
+
+I promise to celebrate this properly when we meet.
+Until then — this little code is my hug for you.
+
+Happy Birthday, my love 🎂❤️`;
+
+        let index = 0;
+        const speed = 40;
+
+        function typeEffect() {
+            if (index < text.length) {
+                document.getElementById("typewriter").innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeEffect, speed);
+            }
+        }
+
+        function playMusic() {
+            document.getElementById("music").play();
+        }
+
+        // Customize name here
+        document.getElementById("name").innerText = "My Baccha";
+
+        typeEffect();
+    </script>
+</body>
+
+</html>
