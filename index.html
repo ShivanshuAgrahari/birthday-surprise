@@ -164,10 +164,20 @@
     </div>
 
     <script>
+        // 🔥 TEST MODE (TURN OFF BEFORE SENDING)
+        const TEST_MODE = true;
+
         let isMidnightReached = false;
 
-        // Countdown to midnight
+        // COUNTDOWN LOGIC
         function updateCountdown() {
+            if (TEST_MODE) {
+                isMidnightReached = true;
+                //document.getElementById("countdown").innerText = "🧪 Test mode enabled";
+                document.getElementById("pinSection").style.display = "block";
+                return;
+            }
+
             const now = new Date();
             const midnight = new Date();
             midnight.setHours(24, 0, 0, 0);
@@ -176,8 +186,7 @@
 
             if (diff <= 0) {
                 isMidnightReached = true;
-                document.getElementById("countdown").innerText =
-                    "🎉 It’s time…";
+                document.getElementById("countdown").innerText = "🎉 It’s time…";
                 document.getElementById("pinSection").style.display = "block";
                 return;
             }
@@ -193,7 +202,7 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // TYPEWRITER MESSAGE (AFTER UNLOCK)
+        // TYPEWRITER MESSAGE
         const text = `Happy Birthday, My Baccha 🎂❤️
 
 Today is special because YOU exist.
@@ -230,7 +239,7 @@ but as a small piece of my heart. 💖`;
             }
 
             const pin = document.getElementById("pin").value;
-            if (pin === "2309") {
+            if (pin === "143") {
                 document.getElementById("content").style.display = "block";
                 document.getElementById("pinSection").style.display = "none";
                 document.getElementById("lockedMessage").style.display = "none";
@@ -256,7 +265,7 @@ but as a small piece of my heart. 💖`;
             }
         }
 
-        // SONG (YOUTUBE)
+        // YOUTUBE SONG
         function openSong() {
             window.open(
                 "https://www.youtube.com/watch?v=9QpmsrYO4cc&list=RD9QpmsrYO4cc&start_radio=1",
