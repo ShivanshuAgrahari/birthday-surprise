@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Birthday ❤️</title>
+    <title>For You ❤️</title>
 
     <style>
         body {
@@ -21,7 +21,7 @@
         }
 
         h1 {
-            font-size: 2.6rem;
+            font-size: 2.4rem;
             animation: fadeIn 2s;
         }
 
@@ -35,6 +35,11 @@
             margin-top: 25px;
             font-size: 1rem;
             opacity: 0.9;
+        }
+
+        #pinSection {
+            display: none;
+            margin-top: 25px;
         }
 
         #content {
@@ -121,16 +126,20 @@
 
     <div class="container">
 
-        <h1>🎂 Happy Birthday, My Baccha 🎉</h1>
+        <!-- MYSTERY HEADING -->
+        <h1>💫 Something special is waiting for you</h1>
 
+        <!-- COUNTDOWN -->
         <div id="countdown"></div>
 
+        <!-- LOCK MESSAGE -->
         <div id="lockedMessage">
             💖 This page will unlock at midnight<br>
             and only with the right PIN 😉
         </div>
 
-        <div id="pinSection" style="display:none;">
+        <!-- PIN SECTION -->
+        <div id="pinSection">
             <input id="pin" placeholder="Enter PIN" />
             <br />
             <button onclick="unlock()">Unlock 💌</button>
@@ -157,7 +166,7 @@
     <script>
         let isMidnightReached = false;
 
-        // Countdown logic
+        // Countdown to midnight
         function updateCountdown() {
             const now = new Date();
             const midnight = new Date();
@@ -167,7 +176,8 @@
 
             if (diff <= 0) {
                 isMidnightReached = true;
-                document.getElementById("countdown").innerText = "🎉 It's your birthday, My Baccha 🎉";
+                document.getElementById("countdown").innerText =
+                    "🎉 It’s time…";
                 document.getElementById("pinSection").style.display = "block";
                 return;
             }
@@ -183,8 +193,10 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // Typewriter message (hidden until unlock)
-        const text = `Today is special because YOU exist 💖
+        // TYPEWRITER MESSAGE (AFTER UNLOCK)
+        const text = `Happy Birthday, My Baccha 🎂❤️
+
+Today is special because YOU exist.
 
 I wish I could be right there,
 holding your hand and watching you smile.
@@ -195,9 +207,7 @@ celebrated, and incredibly special today.
 
 So I wrote this —
 not just as code,
-but as a small piece of my heart.
-
-Happy Birthday, My Baccha 🎂❤️`;
+but as a small piece of my heart. 💖`;
 
         function typeEffect() {
             let i = 0;
@@ -212,15 +222,15 @@ Happy Birthday, My Baccha 🎂❤️`;
             type();
         }
 
-        // Unlock logic
+        // UNLOCK LOGIC
         function unlock() {
             if (!isMidnightReached) {
-                alert("⏳ Wait till midnight, My Baccha ❤️");
+                alert("⏳ Wait till midnight ❤️");
                 return;
             }
 
             const pin = document.getElementById("pin").value;
-            if (pin === "2309") {
+            if (pin === "143") {
                 document.getElementById("content").style.display = "block";
                 document.getElementById("pinSection").style.display = "none";
                 document.getElementById("lockedMessage").style.display = "none";
@@ -231,19 +241,22 @@ Happy Birthday, My Baccha 🎂❤️`;
             }
         }
 
-        // Confetti
+        // CONFETTI
         function launchConfetti() {
             for (let i = 0; i < 80; i++) {
                 const confetti = document.createElement("div");
                 confetti.className = "confetti";
                 confetti.style.left = Math.random() * 100 + "vw";
-                confetti.style.background = `hsl(${Math.random() * 360},100%,80%)`;
-                confetti.style.animationDuration = 2 + Math.random() * 3 + "s";
+                confetti.style.background =
+                    `hsl(${Math.random() * 360},100%,80%)`;
+                confetti.style.animationDuration =
+                    2 + Math.random() * 3 + "s";
                 document.body.appendChild(confetti);
                 setTimeout(() => confetti.remove(), 5000);
             }
         }
 
+        // SONG (YOUTUBE)
         function openSong() {
             window.open(
                 "https://www.youtube.com/watch?v=9QpmsrYO4cc&list=RD9QpmsrYO4cc&start_radio=1",
