@@ -10,42 +10,62 @@
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(120deg, #ff758c, #ff7eb3);
+            background: linear-gradient(120deg, #ff5f9e, #ffc371);
             color: white;
             text-align: center;
             overflow-x: hidden;
         }
 
         .container {
-            padding: 40px 20px;
+            padding: 30px 20px;
         }
 
         h1 {
-            font-size: 2.8rem;
-            animation: fadeIn 2s ease-in-out;
+            font-size: 2.6rem;
+            animation: fadeIn 2s;
+        }
+
+        #countdown {
+            font-size: 1.4rem;
+            margin-top: 20px;
+            font-weight: bold;
         }
 
         #typewriter {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             margin-top: 30px;
-            min-height: 120px;
-        }
-
-        .heart {
-            font-size: 3rem;
-            animation: pulse 1.5s infinite;
-            margin-top: 20px;
+            min-height: 160px;
+            white-space: pre-line;
         }
 
         button {
-            margin-top: 30px;
-            padding: 12px 25px;
+            margin-top: 20px;
+            padding: 12px 26px;
             border: none;
-            border-radius: 30px;
+            border-radius: 25px;
             background: white;
             color: #ff4d6d;
             font-size: 1rem;
             cursor: pointer;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 20px;
+            border: none;
+            text-align: center;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .heart {
+            font-size: 3rem;
+            margin-top: 20px;
+            animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
@@ -73,55 +93,136 @@
                 transform: translateY(0);
             }
         }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: white;
+            top: -10px;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
 <body>
+
     <div class="container">
-        <h1>🎂 Happy Birthday, <span id="name">My Love</span> 🎉</h1>
+        <h1>🎂 Happy Birthday, <span id="name">My Baccha</span> 🎉</h1>
+
+        <div id="countdown"></div>
 
         <div id="typewriter"></div>
 
         <div class="heart">❤️</div>
 
-        <button onclick="playMusic()">Play Our Song 🎵</button>
+        <button onclick="openSong()">Play Our Song 🎵</button>
+
+        <div style="margin-top:30px;">
+            <p>🔐 Unlock a secret message</p>
+            <input id="pin" placeholder="Enter PIN" />
+            <br />
+            <button onclick="unlock()">Unlock 💌</button>
+        </div>
+
+        <div id="secret" class="hidden">
+            <h2>💖 My Secret for You 💖</h2>
+            <p>
+                No distance, no moment, no situation can ever reduce what I feel for you.<br><br>
+                Today I may not be near you physically,<br>
+                but my heart is celebrating you louder than ever.<br><br>
+                You are my comfort, my smile, my safe place.<br>
+                And I promise — every birthday ahead, I’ll be closer than the last. ❤️
+            </p>
+        </div>
     </div>
 
-    <audio id="music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
-    </audio>
-
     <script>
-        const text = `On this special day, I just want you to know…
-You are the most beautiful part of my life.
-Even though we are in different cities today,
-my heart is right there with you. 💖
+        // Countdown to midnight
+        function updateCountdown() {
+            const now = new Date();
+            const midnight = new Date();
+            midnight.setHours(24, 0, 0, 0);
 
-I promise to celebrate this properly when we meet.
-Until then — this little code is my hug for you.
+            const diff = midnight - now;
+            const hrs = Math.floor(diff / (1000 * 60 * 60));
+            const mins = Math.floor((diff / (1000 * 60)) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
 
-Happy Birthday, my love 🎂❤️`;
+            document.getElementById("countdown").innerText =
+                `⏳ Time until your birthday moment: ${hrs}h ${mins}m ${secs}s`;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
 
-        let index = 0;
-        const speed = 40;
+        // Typewriter message
+        const text = `Today is special because YOU exist 💖
 
+I wish I could be right there,
+holding your hand and watching you smile.
+
+Even though I’m not near you,
+I still want you to feel loved,
+celebrated, and incredibly special today.
+
+So I wrote this —
+not just as code,
+but as a small piece of my heart.
+
+Happy Birthday, My Baccha 🎂❤️`;
+
+        let i = 0;
         function typeEffect() {
-            if (index < text.length) {
-                document.getElementById("typewriter").innerHTML += text.charAt(index);
-                index++;
-                setTimeout(typeEffect, speed);
+            if (i < text.length) {
+                document.getElementById("typewriter").innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeEffect, 40);
+            }
+        }
+        typeEffect();
+
+        // Unlock secret
+        function unlock() {
+            const pin = document.getElementById("pin").value;
+            if (pin === "143") {
+                document.getElementById("secret").classList.remove("hidden");
+                launchConfetti();
+            } else {
+                alert("❌ Wrong PIN. Try something romantic 😉");
             }
         }
 
-        function playMusic() {
-            document.getElementById("music").play();
+        // Confetti
+        function launchConfetti() {
+            for (let i = 0; i < 80; i++) {
+                const confetti = document.createElement("div");
+                confetti.className = "confetti";
+                confetti.style.left = Math.random() * 100 + "vw";
+                confetti.style.background = `hsl(${Math.random() * 360},100%,80%)`;
+                confetti.style.animationDuration = 2 + Math.random() * 3 + "s";
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 5000);
+            }
         }
 
-        // Customize name here
-        document.getElementById("name").innerText = "My Baccha";
-
-        typeEffect();
+        // YouTube song
+        function openSong() {
+            window.open(
+                "https://www.youtube.com/watch?v=9QpmsrYO4cc&list=RD9QpmsrYO4cc&start_radio=1",
+                "_blank"
+            );
+        }
     </script>
+
 </body>
 
 </html>
